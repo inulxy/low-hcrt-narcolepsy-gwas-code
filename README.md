@@ -22,7 +22,8 @@ The scripts are provided to document the analysis workflow. File paths should be
 
 Main tools used include:
 - R
-- Python / Jupyter Notebook
+- Jupyter Notebook
 - PLINK
 - SAIGE
-- Meta-analysis software
+- Tractor
+- METAL
