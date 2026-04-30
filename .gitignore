@@ -1,0 +1,31 @@
+# Raw genotype / individual-level data
+*.bed
+*.bim
+*.fam
+*.vcf
+*.vcf.gz
+*.bcf
+*.pgen
+*.pvar
+*.psam
+*.sample
+*.CEL
+*.cel
+
+# Large or sensitive folders
+raw_data/
+imputed_data/
+individual_level_data/
+data/
+tmp/
+logs/
+
+# Notebook / OS files
+.ipynb_checkpoints/
+.DS_Store
+
+# R / Python cache
+.Rhistory
+.RData
+__pycache__/
+*.pyc
