@@ -12,11 +12,9 @@ This repository contains analysis notebooks and R scripts used for the low hypoc
 - `05_Low_HCRT_GWAS_Meta_Analysis.ipynb`: Meta-analysis workflow
 - `Deming_regression_OR_comparison.R`: Odds ratio comparison and Deming regression analysis
 
-## Data Availability
+## Input data for Deming regression
+The file `data/compare.xlsx` contains summary-level association statistics used for the odds-ratio comparison and Deming regression analysis. 
 
-This repository does not contain individual-level genotype data, raw genotype files, or restricted-access data.
-
-The scripts are provided to document the analysis workflow. File paths should be modified according to the user's local or server environment.
 
 ## Requirements
 
