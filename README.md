@@ -1,6 +1,6 @@
 # Low HCRT Narcolepsy GWAS Code
 
-This repository contains analysis notebooks and R scripts used for the low hypocretin narcolepsy GWAS research letter.
+This repository contains analysis notebooks and R scripts used for the low hypocretin narcolepsy GWAS research.
 
 ## Contents
 
@@ -21,7 +21,6 @@ The scripts are provided to document the analysis workflow. File paths should be
 ## Requirements
 
 Main tools used include:
-
 - R
 - Python / Jupyter Notebook
 - PLINK
