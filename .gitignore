@@ -16,7 +16,6 @@
 raw_data/
 imputed_data/
 individual_level_data/
-data/
 tmp/
 logs/
 
