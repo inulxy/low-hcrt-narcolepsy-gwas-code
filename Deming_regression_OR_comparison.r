@@ -1,13 +1,16 @@
-setwd("/Users/lixinyu/Desktop/data")
-
 library(readxl)  
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(ggrepel)
 
+args <- commandArgs(trailingOnly = TRUE)
+input_file <- ifelse(length(args) >= 1, args[1], "data/compare.xlsx")
+output_dir <- ifelse(length(args) >= 2, args[2], "results")
+dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+
 # 1. Prepare Data
-raw_data <- read_excel("compare.xlsx", skip = 2, col_names = FALSE)
+raw_data <- read_excel(input_file, skip = 2, col_names = FALSE)
 colnames(raw_data) <- c(
   "Chr", "Gene", "Pos", "Marker", "OtherA", "EffectA", 
   "NatureBeta", "NatureOR", "NatureSE",    
@@ -76,12 +79,11 @@ generate_plots <- function(data, beta_col, se_col, study_name) {
       Study_Label = ifelse(Study_Type == "My_OR", paste0("Refined Cohort (", study_name, ")"), "Generalized Cohort (Baseline)")
     )
   
-  # 优化 Forest Plot 的学术排版
   p1 <- ggplot(forest_df, aes(x = OR, y = Label, color = Study_Label)) +
     geom_vline(xintercept = 1, linetype = "dashed", color = "grey50") +
     geom_errorbar(aes(xmin = Lower, xmax = Upper), width = 0.3, position = position_dodge(0.6), linewidth = 0.8) +
     geom_point(size = 3.5, position = position_dodge(0.6)) +
-    theme_bw(base_size = 14) + # 使用更适合正式论文的主题和字号
+    theme_bw(base_size = 14) + 
     scale_x_log10(breaks = c(0.2, 0.5, 1, 2, 5)) + 
     labs(x = "Odds Ratio (Log Scale)", y = "") +
     scale_color_manual(values = c("#2563eb", "#10b981")) + 
@@ -92,7 +94,8 @@ generate_plots <- function(data, beta_col, se_col, study_name) {
       axis.text.y = element_text(color = "black", face = "italic") 
     )
   
-  ggsave(paste0("Forest_Plot_", study_name, ".pdf"), p1, width = 10, height = 7, dpi = 300)
+  ggsave(file.path(output_dir, paste0("Forest_Plot_", study_name, ".pdf")),
+       p1, width = 10, height = 7, dpi = 300)
   
   # 3. Deming Regression & Bootstrapping for CI/P-value
   fit_data <- plot_df 
@@ -146,7 +149,7 @@ generate_plots <- function(data, beta_col, se_col, study_name) {
     geom_point(size = 3.5, color = "#2563eb", alpha = 0.8) + 
     geom_text_repel(aes(label = Label), size = 4, max.overlaps = 20, fontface = "italic") +
     
-    theme_bw(base_size = 14) 
+    theme_bw(base_size = 14) +
     coord_fixed(ratio = 1, xlim = c(min_val, max_val), ylim = c(min_val, max_val)) +
     
     labs(x = "Generalized Cohort OR", 
@@ -160,7 +163,8 @@ generate_plots <- function(data, beta_col, se_col, study_name) {
       axis.text = element_text(color = "black")
     )
   
-  ggsave(paste0("Regression_Plot_", study_name, ".pdf"), p2, width = 8, height = 8, dpi = 300) 
+  ggsave(file.path(output_dir, paste0("Regression_Plot_", study_name, ".pdf")),
+       p2, width = 8, height = 8, dpi = 300)
 }
 
 # 4. Run the loop for all analyses
